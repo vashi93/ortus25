@@ -1,0 +1,1319 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ortus'25 - Annual College Fest</title>
+    <style>
+        :root {
+            --primary-color: #B21A0D;
+            --bg-dark: #0c0b0b;
+            --text-light: #ffffff;
+            --text-gray: #bfc3ca;
+            --max-width: 1200px;
+            --navbar-bg: rgba(0, 0, 0, 0.639);
+            --navbar-bg-scroll: rgb(0, 0, 0);
+            --card-bg: rgba(20, 22, 24, 0.87);
+            --footer-bg: rgb(20, 20, 21);
+            --border-color: rgba(156, 163, 175, 0.2);
+            --ended-color: #EF4444;
+            --ended-bg: rgba(239, 68, 68, 0.1);
+            --current-color: #10B981;
+            --current-bg: rgba(16, 185, 129, 0.1);
+            --upcoming-color: #F59E0B;
+            --upcoming-bg: rgba(245, 158, 11, 0.1);
+            --bg-color: #1e1e2f;
+            --card-bg-gradient: #1e1e21;
+            --text-color: #ffffff;
+            --accent-color: #ff0644;
+            --font-family: 'Arial', sans-serif;
+            --card-width: 300px;
+            --card-padding: 20px;
+            --timer-font-size: 24px;
+            --label-font-size: 14px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI','Arial', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* Navbar Styles */
+        #navbar {
+            position: fixed;
+            width: 100%;
+            background-color: var(--navbar-bg);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+        }
+
+        .nav-content {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .menu-btn {
+            display: none;
+            cursor: pointer;
+        }
+
+        .bar {
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-light);
+            margin: 5px 0;
+            transition: 0.3s;
+        }
+
+        /* Hero Section Styles */
+        #hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden; /* Important to contain the shader */
+        }
+
+
+        .hero-shader {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .hero-shader shader-art {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.8; /* Adjust transparency */
+        }
+
+
+        .hero-content {
+            position: relative;
+            z-index: 2; 
+        }
+
+        .hero-content h1 {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            color: var(--text-gray);
+            margin-bottom: 2rem;
+        }
+
+        .event-info {
+            display: flex;
+            align-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Events Section Styles */
+        #events {
+            padding: 5rem 2rem;
+            background-color: var(--bg-dark);
+        }
+
+        #events h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .events-container {
+            max-width: 700px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .event-card {
+            background-color: var(--card-bg);
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            transition: transform 0.3s, opacity 0.5s;
+            opacity: 0;
+            transform: translateY(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .event-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .event-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+        }
+
+        .event-card.ended::before {
+            background-color: var(--ended-color);
+        }
+
+        .event-card.current::before {
+            background-color: var(--current-color);
+        }
+
+        .event-card.upcoming::before {
+            background-color: var(--upcoming-color);
+        }
+
+        .event-status {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .event-status.ended {
+            background-color: var(--ended-bg);
+            color: var(--ended-color);
+        }
+
+        .event-status.current {
+            background-color: var(--current-bg);
+            color: var(--current-color);
+        }
+
+        .event-status.upcoming {
+            background-color: var(--upcoming-bg);
+            color: var(--upcoming-color);
+        }
+
+        .event-time {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-gray);
+            font-size: 0.813rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .event-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .event-location {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-gray);
+            font-size: 0.813rem;
+        }
+
+        /* Chief Guests Section Styles */
+        #chief-guests {
+            padding: 5rem 2rem;
+            background-color: var(--bg-dark);
+        }
+
+        #chief-guests h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .guests-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+        }
+
+        .chief-guests-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 4rem;
+            margin-bottom: 4rem;
+            /* Center the grid and limit its width */
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .guest-card {
+            background-color: var(--card-bg);
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s;
+            width: 100%;
+            max-width: 400px; /* Reduced from previous size */
+            margin: 0 auto;
+        }
+
+        .guest-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .guest-image {
+            width: 100%;
+            aspect-ratio: 1/1; /* Forces square aspect ratio */
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .guest-content {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .guest-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .guest-position {
+            color: var(--text-gray);
+        }
+
+        .coordinators-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .coordinators-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .coordinator-card {
+            background-color: var(--card-bg);
+            border-radius: 0.75rem;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s;
+        }
+
+        .coordinator-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .coordinator-image {
+            width: 100%;
+            aspect-ratio: 1/1; /* Forces square aspect ratio */
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .coordinator-content {
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .coordinator-content h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .coordinator-content p {
+            color: var(--text-gray);
+            font-size: 0.875rem;
+        }
+
+        /* Food Stalls Section Styles */
+        #food-stalls {
+            padding: 5rem 2rem;
+            background-color: var(--bg-dark);
+            position: relative;
+        }
+
+        #food-stalls h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .food-stalls-container {
+            overflow-x: auto;
+            padding: 1rem;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            scroll-behavior: smooth;
+            position: relative;
+        }
+
+        .food-stalls-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .food-stalls-grid {
+            display: flex;
+            gap: 1.5rem;
+            padding: 0.5rem;
+            min-width: max-content;
+        }
+        .food-stalls-navigation {
+            display: none;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .nav-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .nav-btn:hover {
+            background-color: #7C3AED;
+        }
+
+        .nav-btn:disabled {
+            background-color: var(--text-gray);
+            cursor: not-allowed;
+        }
+
+        @media (min-width: 768px) {
+            .food-stalls-navigation {
+                display: flex;
+            }
+        }
+
+        .food-card {
+            flex: 0 0 200px;
+            background-color: var(--card-bg);
+            border-radius: 0.75rem;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .food-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .food-image {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+
+        .food-content {
+            padding: 1rem;
+        }
+
+        .food-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .food-price {
+            color: var(--text-gray);
+            font-size: 0.875rem;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: var(--footer-bg);
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-content {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-gray);
+        }
+
+        /* Button Styles */
+        .register-btn {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .register-btn:hover {
+            background-color: #7C3AED;
+        }
+        .logo-launch-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+            }
+
+            .countdown-title {
+            color: var(--text-color);
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            }
+
+            .countdown-card {
+            background: var(--card-bg-gradient);
+            width: var(--card-width);
+            border-radius: 10px;
+            padding: var(--card-padding);
+            text-align: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+            }
+
+            .countdown-bg {
+            height: 150px;
+            background: url('logo.jpg') center/contain no-repeat,var(--card-bg-gradient);
+            border-radius: 8px;
+            margin-bottom: 15px;
+            }
+
+            .countdown-description {
+            color: var(--text-color);
+            font-size: 1em;
+            margin-bottom: 15px;
+            }
+
+            .countdown-timer {
+            display: flex;
+            justify-content: space-between;
+            }
+
+            .countdown-item {
+            text-align: center;
+            color: var(--text-color);
+            }
+
+            .countdown-value {
+            display: block;
+            font-size: var(--timer-font-size);
+            color: var(--accent-color);
+            font-weight: bold;
+            }
+
+            .countdown-label {
+            font-size: var(--label-font-size);
+            margin-top: 5px;
+            }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .coordinators-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: var(--navbar-bg-scroll);
+                padding: 1rem;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .menu-btn {
+                display: block;
+            }
+
+            .menu-btn.active .bar:nth-child(1) {
+                transform: rotate(-45deg) translate(-5px, 6px);
+            }
+
+            .menu-btn.active .bar:nth-child(2) {
+                opacity: 0;
+            }
+
+            .menu-btn.active .bar:nth-child(3) {
+                transform: rotate(45deg) translate(-5px, -6px);
+            }
+
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+
+            .event-info {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .chief-guests-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .guest-image {
+                height: 250px;
+            }
+
+            .coordinators-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+                padding: 0.5rem;
+            }
+
+            .coordinator-image {
+                height: 180px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .coordinators-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+        @media (max-width: 390px) {
+            .coordinators-grid {
+                grid-template-columns: repeat(2, 1fr);
+                grid-template-rows: repeat(4, auto);
+                gap: 0.75rem;
+                padding: 0.5rem;
+            }
+
+            .coordinator-card {
+                margin-bottom: 0.5rem;
+            }
+
+            .coordinator-image {
+                height: 140px;
+            }
+
+            .coordinator-content {
+                padding: 0.625rem;
+            }
+
+            .coordinator-content h4 {
+                font-size: 0.875rem;
+                margin-bottom: 0.125rem;
+            }
+
+            .coordinator-content p {
+                font-size: 0.75rem;
+            }
+        }
+        @media (max-width: 768px) {
+            .event-card {
+                padding-bottom: 2.5rem;
+            }
+
+            .event-status {
+                top: auto;
+                bottom: 0.75rem;
+                right: 0.75rem;
+            }
+
+            .event-time {
+                padding-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav id="navbar">
+        <div class="nav-content">
+            <div class="logo">ORTUS'25</div>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#events">Live Now</a>
+                <a href="#chief-guests">Guests</a>
+                <a href="stalls.html">Stalls</a>
+                <a href="registration.html">Register</a>
+                <a href="timetable.html">Schedule</a>
+            </div>
+            <div class="menu-btn">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+        </div>
+    </nav>
+
+    <section id="hero">
+        <div class="hero-shader">
+            <shader-art autoplay dpr="1" role="img" tabindex="0" aria-label="A noise animation in red">
+                <script type="buffer" name="position" data-size="2">
+                    [-1, 1, -1,-1, 1,1, 1, 1, -1,-1, 1,-1]
+                </script>
+                <script type="buffer" name="uv" data-size="2">
+                    [ 0, 0, 0, 1, 1,0, 1, 0, 0, 1, 1, 1]
+                </script>
+                <script type="vert">
+                    #version 300 es
+                    precision highp float;
+
+                    in vec4 position;
+                    in vec2 uv;
+                    out vec2 vUv;
+                    out vec4 vPosition;
+
+                    void main() {
+                        vUv = uv;
+                        vPosition = position;
+                        gl_Position = position;
+                    }
+                </script>
+                <script type="frag">
+                    #version 300 es
+                    precision highp float;
+
+                    in vec2 vUv;
+                    in vec4 vPosition;
+                    out vec4 fragColor;
+
+                    uniform vec2 resolution;
+                    uniform float time;
+                    uniform sampler2D charset;
+                    uniform sampler2D message;
+
+                    #define AA 1e-3
+                    #define PI 3.141592654
+                    #define DEG PI / 180.
+
+                    vec2 rotate(vec2 p, float a) {
+                        return vec2(p.x * cos(a) - p.y * sin(a), p.x * sin(a) + p.y * cos(a));
+                    }
+
+                    float nooise(vec2 p) {
+                        float n = .5 + .5 * ( sin(p.x * .5 + cos(p.y * 4. + .2 * cos(p.x * 2. + time * .5) + time * .3) + time * .4) * cos(p.y * .7 + sin(p.x * 3. + .3 * cos(p.y * 2. + time * .6) + time * .4) + time * .7) );
+                        return n;
+                    }
+
+                    vec3 background() {
+                        vec2 p0 = vPosition.xy;
+                        float aspectRatio = resolution.x / resolution.y;
+                        p0.x *= aspectRatio;
+                        vec2 p = rotate(p0.xy * .8, time * .05);
+                        float n = (nooise(p) + nooise(p * 2.) + nooise(p * 5.)) / 3.;
+                        n = n * sin(n * n * 23. + time * .2);
+                        n = clamp(smoothstep(.3, .35, n) - smoothstep(.4, .45, n), 0., 1.);
+                        return vec3(.7, .1, .05) * n;
+                    }
+
+                    void main() {
+                        fragColor = vec4(background(), 0.8);
+                    }
+                </script>
+            </shader-art>
+        </div>
+        <div class="hero-content">
+            <h1>Silver Jubilee &</h1>
+            <h1>ORTUS 25</h1>
+            <p>Experience the Biggest Cultural Extravaganza</p>
+            
+            <button class="register-btn">Play Promo</button>
+        </div>
+    </section>
+    <section id="logo">
+        <div class="logo-launch-section">
+            <h2 class="countdown-title">New College Logo</h2>
+            <div class="countdown-card">
+            <div class="countdown-bg"></div>
+            <p class="countdown-description">New College Logo launching soon</p>
+            <div class="countdown-timer">
+                <div class="countdown-item">
+                <span class="countdown-value" id="days">00</span>
+                <span class="countdown-label">Days</span>
+                </div>
+                <div class="countdown-item">
+                <span class="countdown-value" id="hours">00</span>
+                <span class="countdown-label">Hours</span>
+                </div>
+                <div class="countdown-item">
+                <span class="countdown-value" id="minutes">00</span>
+                <span class="countdown-label">Minutes</span>
+                </div>
+                <div class="countdown-item">
+                <span class="countdown-value" id="seconds">00</span>
+                <span class="countdown-label">Seconds</span>
+                </div>
+            </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="events">
+        <h2>Live Event Tracking</h2>
+        <div class="events-container">
+            <div class="event-card ended">
+                <span class="event-status ended">Ended</span>
+                <div class="event-time">
+                    <span class="icon">⏰</span>
+                    <span>March 15, 2025 • 6:00 PM - 9:00 PM</span>
+                </div>
+                <h3 class="event-title">Opening Ceremony</h3>
+                <div class="event-location">
+                    <span class="icon">📍</span>
+                    <span>Main Auditorium</span>
+                </div>
+            </div>
+
+            <div class="event-card current">
+                <span class="event-status current">Live Now</span>
+                <div class="event-time">
+                    <span class="icon">⏰</span>
+                    <span>March 16, 2025 • 4:00 PM - 7:00 PM</span>
+                </div>
+                <h3 class="event-title">Battle of Bands</h3>
+                <div class="event-location">
+                    <span class="icon">📍</span>
+                    <span>Open Air Theatre</span>
+                </div>
+            </div>
+
+            <div class="event-card upcoming">
+                <span class="event-status upcoming">Coming Up</span>
+                <div class="event-time">
+                    <span class="icon">⏰</span>
+                    <span>March 16, 2025 • 8:00 PM - 11:00 PM</span>
+                </div>
+                <h3 class="event-title">EDM Night</h3>
+                <div class="event-location">
+                    <span class="icon">📍</span>
+                    <span>Main Ground</span>
+                </div>
+            </div>
+
+            <div class="event-card upcoming">
+                <span class="event-status upcoming">Coming Up</span>
+                <div class="event-time">
+                    <span class="icon">⏰</span>
+                    <span>March 17, 2025 • 6:00 PM - 10:00 PM</span>
+                </div>
+                <h3 class="event-title">Celebrity Night</h3>
+                <div class="event-location">
+                    <span class="icon">📍</span>
+                    <span>Main Ground</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="chief-guests">
+        <h2>Chief Guests</h2>
+        <div class="guests-container">
+            <div class="chief-guests-grid">
+                <div class="guest-card">
+                    <img src="images/chairman.jpg" alt="CHAIRMAN" class="guest-image">
+                    <div class="guest-content">
+                        <h3 class="guest-name">Dr. T Vijender Reddy</h3>
+                        <p class="guest-position">CHAIRMAN</p>
+                    </div>
+                </div>
+                <div class="guest-card">
+                    <img src="guest.jpg" alt="SECRETARY" class="guest-image">
+                    <div class="guest-content">
+                        <h3 class="guest-name">Mr. T Upender Reddy</h3>
+                        <p class="guest-position">SECRETARY</p>
+                    </div>
+                </div>
+                <div class="guest-card">
+                    <img src="guest.jpg" alt="TREASURER" class="guest-image">
+                    <div class="guest-content">
+                        <h3 class="guest-name">Mr. E Prabhakar Reddy</h3>
+                        <p class="guest-position">TREASURER</p>
+                    </div>
+                </div>
+                <div class="guest-card">
+                    <img src="guest.jpg" alt="Principal" class="guest-image">
+                    <div class="guest-content">
+                        <h3 class="guest-name">Dr. J V R Ravindra</h3>
+                        <p class="guest-position">Principal</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="coordinators-title">Event Coordinators</h3>
+            <div class="coordinators-grid">
+                <div class="coordinator-card">
+                    <img src="guest.jpg" alt="Coordinator 1" class="coordinator-image">
+                    <div class="coordinator-content">
+                        <h4>Alex Turner</h4>
+                        <p>Technical Head</p>
+                    </div>
+                </div>
+                <div class="coordinator-card">
+                    <img src="guest.jpg" alt="Coordinator 2" class="coordinator-image">
+                    <div class="coordinator-content">
+                        <h4>Emily Clark</h4>
+                        <p>Cultural Head</p>
+                    </div>
+                </div>
+                <div class="coordinator-card">
+                    <img src="guest.jpg" alt="Coordinator 3" class="coordinator-image">
+                    <div class="coordinator-content">
+                        <h4>David Chen</h4>
+                        <p>Sports Head</p>
+                    </div>
+                </div>
+                <div class="coordinator-card">
+                    <img src="guest.jpg" alt="Coordinator 4" class="coordinator-image">
+                    <div class="coordinator-content">
+                        <h4>Lisa Wong</h4>
+                        <p>Marketing Head</p>
+                    </div>
+                </div>
+                <div class="coordinator-card">
+                    <img src="guest.jpg" alt="Coordinator 5" class="coordinator-image">
+                    <div class="coordinator-content">
+                        <h4>Tom Harris</h4>
+                        <p>Logistics Head</p>
+                    </div>
+                </div>
+                <div class="coordinator-card">
+                    <img src="guest.jpg" alt="Coordinator 6" class="coordinator-image">
+                    <div class="coordinator-content">
+                        <h4>Maria Garcia</h4>
+                        <p>PR Head</p>
+                    </div>
+                </div>
+                <div class="coordinator-card">
+                    <img src="guest.jpg" alt="Coordinator 7" class="coordinator-image">
+                    <div class="coordinator-content">
+                        <h4>James Wilson</h4>
+                        <p>Security Head</p>
+                    </div>
+                </div>
+                <div class="coordinator-card">
+                    <img src="guest.jpg" alt="Coordinator 8" class="coordinator-image">
+                    <div class="coordinator-content">
+                        <h4>Anna Lee</h4>
+                        <p>Hospitality Head</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="food-stalls">
+        <h2>Food Stalls</h2>
+        <div class="food-stalls-container">
+            <div class="food-stalls-grid">
+                <!-- Food cards remain the same -->
+                <div class="food-card">
+                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd" alt="Burger" class="food-image">
+                    <div class="food-content">
+                        <h3 class="food-title">Classic Burger</h3>
+                        <p class="food-price">Starting from ₹149</p>
+                    </div>
+                </div>
+                
+                <div class="food-card">
+                    <img src="https://images.unsplash.com/photo-1604382355076-af4b0eb60143" alt="Pizza" class="food-image">
+                    <div class="food-content">
+                        <h3 class="food-title">Margherita Pizza</h3>
+                        <p class="food-price">Starting from ₹199</p>
+                    </div>
+                </div>
+
+                <div class="food-card">
+                    <img src="https://images.unsplash.com/photo-1600935926387-12d9b03066f0" alt="Noodles" class="food-image">
+                    <div class="food-content">
+                        <h3 class="food-title">Hakka Noodles</h3>
+                        <p class="food-price">Starting from ₹129</p>
+                    </div>
+                </div>
+
+                <div class="food-card">
+                    <img src="https://images.unsplash.com/photo-1613545325278-f24b0cae1224" alt="Sushi" class="food-image">
+                    <div class="food-content">
+                        <h3 class="food-title">Sushi Rolls</h3>
+                        <p class="food-price">Starting from ₹249</p>
+                    </div>
+                </div>
+
+                <div class="food-card">
+                    <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950" alt="Mocktails" class="food-image">
+                    <div class="food-content">
+                        <h3 class="food-title">Fresh Mocktails</h3>
+                        <p class="food-price">Starting from ₹99</p>
+                    </div>
+                </div>
+
+                <div class="food-card">
+                    <img src="https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58" alt="Sandwich" class="food-image">
+                    <div class="food-content">
+                        <h3 class="food-title">Grilled Sandwich</h3>
+                        <p class="food-price">Starting from ₹119</p>
+                    </div>
+                </div>
+                <div class="food-card">
+                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd" alt="Burger" class="food-image">
+                    <div class="food-content">
+                        <h3 class="food-title">Classic Burger</h3>
+                        <p class="food-price">Starting from ₹149</p>
+                    </div>
+                </div>
+                
+                <div class="food-card">
+                    <img src="https://images.unsplash.com/photo-1604382355076-af4b0eb60143" alt="Pizza" class="food-image">
+                    <div class="food-content">
+                        <h3 class="food-title">Margherita Pizza</h3>
+                        <p class="food-price">Starting from ₹199</p>
+                    </div>
+                </div>
+
+                <div class="food-card">
+                    <img src="https://images.unsplash.com/photo-1600935926387-12d9b03066f0" alt="Noodles" class="food-image">
+                    <div class="food-content">
+                        <h3 class="food-title">Hakka Noodles</h3>
+                        <p class="food-price">Starting from ₹129</p>
+                    </div>
+                </div>
+
+                <div class="food-card">
+                    <img src="https://images.unsplash.com/photo-1613545325278-f24b0cae1224" alt="Sushi" class="food-image">
+                    <div class="food-content">
+                        <h3 class="food-title">Sushi Rolls</h3>
+                        <p class="food-price">Starting from ₹249</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="food-stalls-navigation">
+            <button class="nav-btn prev-btn" aria-label="Previous">←</button>
+            <button class="nav-btn next-btn" aria-label="Next">→</button>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>S'25</h3>
+                <h3>ORTUS'25</h3>
+                <p>Celebrating 25 Years of<br>Vardhaman College Of Engineering</p>
+                <div class="social-links">
+                    <a href="#" class="social-icon">📱</a>
+                    <a href="#" class="social-icon">💬</a>
+                    <a href="#" class="social-icon">📸</a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#events">Events</a></li>
+                    <li><a href="#food-stalls">Food</a></li>
+                    <li><a href="timetable.html">Schedule</a></li>
+                    <li><a href="registration.html">Register</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4></h4>
+                <p>📍 Vardhaman College Of Engineering</p>
+                <p>📧 ortus@vardhaman.org</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Ortus. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const launchDate = new Date("December 26, 2024 12:00:00").getTime();
+
+// Update the countdown every second
+const timer = setInterval(() => {
+  const now = new Date().getTime();
+  const distance = launchDate - now;
+
+  // Calculate days, hours, minutes, and seconds
+  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  // Update the HTML elements
+  document.getElementById("days").textContent = days.toString().padStart(2, '0');
+  document.getElementById("hours").textContent = hours.toString().padStart(2, '0');
+  document.getElementById("minutes").textContent = minutes.toString().padStart(2, '0');
+  document.getElementById("seconds").textContent = seconds.toString().padStart(2, '0');
+
+  // If the countdown is over
+  if (distance < 0) {
+    clearInterval(timer);
+    document.querySelector(".countdown-description").textContent = "The logo has been launched!";
+    document.querySelector(".countdown-timer").style.display = "none";
+  }
+}, 1000);
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile menu functionality
+            const menuBtn = document.querySelector('.menu-btn');
+            const navLinks = document.querySelector('.nav-links');
+
+            menuBtn.addEventListener('click', () => {
+                menuBtn.classList.toggle('active');
+                navLinks.classList.toggle('active');
+            });
+            document.addEventListener("DOMContentLoaded", function () {
+            const targetDate = new Date("2024-12-25T00:00:00").getTime();
+
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const timeLeft = targetDate - now;
+
+                const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeLeft % (1000)) / 1000);
+
+                document.getElementById("days").textContent = days.toString().padStart(2, "0");
+                document.getElementById("hours").textContent = hours.toString().padStart(2, "0");
+                document.getElementById("minutes").textContent = minutes.toString().padStart(2, "0");
+                document.getElementById("seconds").textContent = seconds.toString().padStart(2, "0");
+
+                if (timeLeft < 0) {
+                clearInterval(countdownInterval);
+                document.querySelector(".countdown-description").textContent = "The logo is live now!";
+                }
+            }
+
+            const countdownInterval = setInterval(updateCountdown, 1000);
+            updateCountdown();
+            });
+
+            // Close mobile menu when clicking a link
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    menuBtn.classList.remove('active');
+                    navLinks.classList.remove('active');
+                });
+            });
+
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Navbar background change on scroll
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.style.backgroundColor = 'var(--navbar-bg-scroll)';
+                } else {
+                    navbar.style.backgroundColor = 'var(--navbar-bg)';
+                }
+            });
+
+            // Animation for cards
+            const observerOptions = {
+                threshold: 0.2
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe event cards
+            document.querySelectorAll('.event-card').forEach(card => {
+                observer.observe(card);
+            });
+
+            // Observe guest and coordinator cards
+            document.querySelectorAll('.guest-card, .coordinator-card').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s, transform 0.5s';
+                observer.observe(card);
+            });
+
+            // Food stalls scroll animation
+            document.addEventListener('DOMContentLoaded', () => {
+    // Previous script content remains the same until food stalls section
+
+    // Food stalls navigation
+    const container = document.querySelector('.food-stalls-container');
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    
+    if (container && prevBtn && nextBtn) {
+        const scrollAmount = 400; // Adjust scroll amount as needed
+
+        const updateButtonStates = () => {
+            prevBtn.disabled = container.scrollLeft <= 0;
+            nextBtn.disabled = container.scrollLeft >= container.scrollWidth - container.clientWidth;
+        };
+
+        prevBtn.addEventListener('click', () => {
+            container.scrollBy({
+                left: -scrollAmount,
+                behavior: 'smooth'
+            });
+        });
+
+        nextBtn.addEventListener('click', () => {
+            container.scrollBy({
+                left: scrollAmount,
+                behavior: 'smooth'
+            });
+        });
+
+        container.addEventListener('scroll', updateButtonStates);
+        updateButtonStates(); // Initial button state
+    }
+
+    // Remove the automatic scroll animation
+    // The rest of the script remains the same
+});
+        });
+        document.addEventListener('DOMContentLoaded', () => {
+    const container = document.querySelector('.food-stalls-container');
+    const grid = document.querySelector('.food-stalls-grid');
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    
+    if (!container || !grid || !prevBtn || !nextBtn) return;
+
+    // Calculate the scroll amount based on card width + gap
+    const cardWidth = 250; // Width of each card
+    const gap = 24; // Gap between cards (1.5rem = 24px)
+    const scrollAmount = cardWidth + gap;
+
+    function updateButtonStates() {
+        const maxScroll = grid.scrollWidth - container.clientWidth;
+        const currentScroll = container.scrollLeft;
+
+        prevBtn.disabled = currentScroll <= 0;
+        nextBtn.disabled = currentScroll >= maxScroll;
+    }
+
+    // Scroll buttons functionality
+    prevBtn.addEventListener('click', () => {
+        container.scrollBy({
+            left: -scrollAmount,
+            behavior: 'smooth'
+        });
+        setTimeout(updateButtonStates, 300);
+    });
+
+    nextBtn.addEventListener('click', () => {
+        container.scrollBy({
+            left: scrollAmount,
+            behavior: 'smooth'
+        });
+        setTimeout(updateButtonStates, 300);
+    });
+
+    // Update button states on scroll and resize
+    container.addEventListener('scroll', updateButtonStates);
+    window.addEventListener('resize', updateButtonStates);
+
+    // Initial button state
+    updateButtonStates();
+});
+    </script>
+    <script type="module">
+        import { ShaderArt } from 'https://cdn.skypack.dev/shader-art';
+        ShaderArt.register();
+    </script>
+</body>
+</html

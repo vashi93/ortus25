@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORTUS'25 - Registration</title>
+    <style>
+        /* Previous styles remain the same */
+        :root {
+            --primary-color: #8B5CF6;
+            --bg-dark: #111827;
+            --text-light: #ffffff;
+            --text-gray: #9CA3AF;
+            --navbar-bg: rgba(17, 24, 39, 0.9);
+            --navbar-bg-scroll: rgba(17, 24, 39, 0.95);
+            --card-bg: rgba(31, 41, 55, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        #navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: var(--navbar-bg);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .tabs-container {
+            margin-top: 80px;
+            padding: 0 2rem;
+            background-color: rgba(31, 41, 55, 0.3);
+            backdrop-filter: blur(8px);
+        }
+
+        .tabs {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 0;
+        }
+
+        .tab {
+            padding: 0.75rem 2rem;
+            background: transparent;
+            border: none;
+            color: var(--text-gray);
+            cursor: pointer;
+            font-size: 1rem;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .tab.active {
+            color: var(--text-light);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1rem;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: var(--card-bg);
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+        }
+
+        .form-section {
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-gray);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem;
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem;
+            color: var(--text-light);
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .form-select option {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 0.5rem;
+            color: var(--text-light);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #7C3AED;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .tabs {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .tab {
+                width: 100%;
+                text-align: center;
+            }
+
+            .tab.active::after {
+                bottom: 0;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <nav id="navbar">
+        <div class="nav-content">
+            <div class="logo">ORTUS'25</div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#events">Events</a>
+                <a href="index.html#chief-guests">Guests</a>
+                <a href="index.html#food-stalls">Food</a>
+                <a href="timetable.html">Schedule</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="tabs-container">
+        <div class="tabs">
+            <button class="tab active" data-tab="volunteer">Volunteer Registration</button>
+            <button class="tab" data-tab="performer">Performer Registration</button>
+        </div>
+    </div>
+
+    <div class="form-container">
+        <!-- Volunteer Registration Form -->
+        <div class="form-section active" id="volunteer-form">
+            <form action="/submit-volunteer" method="POST">
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-input" name="fullName" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Roll Number</label>
+                    <input type="text" class="form-input" name="rollNumber" pattern="^[A-Za-z0-9]{10}$" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Department</label>
+                    <select class="form-select" name="department" required>
+                        <option value="">Select Department</option>
+                        <option value="CSE">CSE</option>
+                        <option value="ECE">ECE</option>
+                        <option value="ECE">CSD</option>
+                        <option value="ECE">CSM</option>
+                        <option value="ECE">IT</option>
+                        <option value="ECE">EEE</option>
+                        <option value="ECE">CIVIL</option>
+                        <option value="ECE">MECH</option>
+                        <option value="ECE">AI/ML</option>
+                        <option value="ECE">AI/DS</option>
+                        <option value="ECE">MBA</option>
+                        
+                        
+
+                        <!-- Other options -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Year</label>
+                    <select class="form-select" name="year" required>
+                        <option value="">Select Year</option>
+                        <option value="1">First Year</option>
+                        <option value="2">Second Year</option>
+                        <option value="3">Third Year</option>
+                        <option value="4">Forth Year</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <input type="tel" class="form-input" name="phoneNumber" pattern="[0-9]{10}" required>
+                </div>
+                <button type="submit" class="submit-btn">Register as Volunteer</button>
+            </form>
+            
+        </div>
+
+        <!-- Performer Registration Form -->
+        <div class="form-section" id="performer-form">
+            <form action="/submit-performer" method="POST">
+                <div class="form-group">
+                    <label class="form-label">Performance Type</label>
+                    <select class="form-select" name="performanceType" required>
+                        <option value="">Select Type</option>
+                        <option value="dance">Dance</option>
+                        <option value="drama">Drama</option>
+                        <option value="Music">Music</option>
+                        <option value="other">other</option>
+                        <!-- Other options -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Team Name</label>
+                    <input type="text" class="form-input" name="teamName" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Team Lead Name</label>
+                    <input type="text" class="form-input" name="teamLeadName" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Team Lead Roll Number</label>
+                    <input type="text" class="form-input" name="teamLeadRollNumber" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Team Lead Email</label>
+                    <input type="email" class="form-input" name="teamLeadEmail" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Team Lead Phone Number</label>
+                    <input type="tel" class="form-input" name="teamLeadPhoneNumber" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Team Size</label>
+                    <select class="form-select" name="teamSize" required>
+                        <option value="">Select Size</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="12">14</option>
+                        <!-- Other options -->
+                    </select>
+                </div>
+                <button type="submit" class="submit-btn">Register Performance</button>
+            </form>
+            
+        </div>
+    </div>
+
+    <script>
+        // Tab Switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.form-section').forEach(f => f.classList.remove('active'));
+                
+                tab.classList.add('active');
+                document.getElementById(`${tab.dataset.tab}-form`).classList.add('active');
+            });
+        });
+
+        // Performance Type Handler
+        function handlePerformanceType(select) {
+            const teamSize = document.getElementById('team-size');
+            const otherInput = document.getElementById('other-performance');
+            teamSize.innerHTML = '<option value="">Select Size</option>';
+            
+            // Show/hide other input field
+            if (select.value === 'other') {
+                otherInput.classList.remove('hidden');
+                otherInput.required = true;
+                select.name = '_performance_type';
+                otherInput.name = 'performance_type';
+            } else {
+                otherInput.classList.add('hidden');
+                otherInput.required = false;
+                select.name = 'performance_type';
+                otherInput.name = '_performance_type';
+            }
+            
+            // Set min and max team sizes based on performance type
+            let minSize, maxSize;
+            switch(select.value) {
+                case 'dance':
+                case 'drama':
+                    minSize = 5;
+                    maxSize = 18;
+                    break;
+                default:
+                    minSize = 2;
+                    maxSize = 8;
+            }
+
+            for(let i = minSize; i <= maxSize; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = i;
+                teamSize.appendChild(option);
+            }
+        }
+
+        // Generate Team Member Fields
+        function generateTeamFields(select) {
+            const container = document.getElementById('team-members');
+            container.innerHTML = '';
+            
+            for(let i = 1; i <= select.value; i++) {
+                const group = document.createElement('div');
+                group.className = 'form-group';
+                group.innerHTML = `
+                    <label class="form-label">Team Member ${i}</label>
+                    <input type="text" class="form-input" placeholder="Full Name" required>
+                `;
+                container.appendChild(group);
+            }
+        }
+
+        // Form Submit Handler
+        function handleSubmit(event, type) {
+            event.preventDefault();
+            // Add your form submission logic here
+            console.log(`${type} form submitted`);
+            alert('Registration submitted successfully!');
+            event.target.reset();
+            
+            // Reset other performance input if it exists
+            const otherInput = document.getElementById('other-performance');
+            if (otherInput) {
+                otherInput.classList.add('hidden');
+                otherInput.required = false;
+            }
+        }
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.style.backgroundColor = 'var(--navbar-bg-scroll)';
+            } else {
+                navbar.style.backgroundColor = 'var(--navbar-bg)';
+            }
+        });
+    </script>
+</body>
+</html>
