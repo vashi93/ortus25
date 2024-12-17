@@ -504,7 +504,7 @@
         }
 
         /* Button Styles */
-        .register-btn {
+        .promo-btn {
             background-color: var(--primary-color);
             color: var(--text-light);
             border: none;
@@ -515,8 +515,8 @@
             transition: background-color 0.3s;
         }
 
-        .register-btn:hover {
-            background-color: #7C3AED;
+        .promo-btn:hover {
+            background-color: #581616;
         }
         .logo-launch-section {
             display: flex;
@@ -542,7 +542,7 @@
 
             .countdown-bg {
             height: 150px;
-            background: url('logo.jpg') center/contain no-repeat,var(--card-bg-gradient);
+            background: url('/images/logo.jpg') center/contain no-repeat,var(--card-bg-gradient);
             border-radius: 8px;
             margin-bottom: 15px;
             }
@@ -796,7 +796,7 @@
             <h1>ORTUS 25</h1>
             <p>Experience the Biggest Cultural Extravaganza</p>
             
-            <button class="register-btn">Play Promo</button>
+            <button class="promo-btn">Play Promo</button>
         </div>
     </section>
     <section id="logo">
@@ -889,28 +889,28 @@
         <div class="guests-container">
             <div class="chief-guests-grid">
                 <div class="guest-card">
-                    <img src="images/chairman.jpg" alt="CHAIRMAN" class="guest-image">
+                    <img src="/images/chairman.jpg" alt="CHAIRMAN" class="guest-image">
                     <div class="guest-content">
                         <h3 class="guest-name">Dr. T Vijender Reddy</h3>
                         <p class="guest-position">CHAIRMAN</p>
                     </div>
                 </div>
                 <div class="guest-card">
-                    <img src="guest.jpg" alt="SECRETARY" class="guest-image">
+                    <img src="/images/guest.jpg" alt="SECRETARY" class="guest-image">
                     <div class="guest-content">
                         <h3 class="guest-name">Mr. T Upender Reddy</h3>
                         <p class="guest-position">SECRETARY</p>
                     </div>
                 </div>
                 <div class="guest-card">
-                    <img src="guest.jpg" alt="TREASURER" class="guest-image">
+                    <img src="/images/guest.jpg" alt="TREASURER" class="guest-image">
                     <div class="guest-content">
                         <h3 class="guest-name">Mr. E Prabhakar Reddy</h3>
                         <p class="guest-position">TREASURER</p>
                     </div>
                 </div>
                 <div class="guest-card">
-                    <img src="guest.jpg" alt="Principal" class="guest-image">
+                    <img src="/images/guest.jpg" alt="Principal" class="guest-image">
                     <div class="guest-content">
                         <h3 class="guest-name">Dr. J V R Ravindra</h3>
                         <p class="guest-position">Principal</p>
@@ -921,56 +921,56 @@
             <h3 class="coordinators-title">Event Coordinators</h3>
             <div class="coordinators-grid">
                 <div class="coordinator-card">
-                    <img src="guest.jpg" alt="Coordinator 1" class="coordinator-image">
+                    <img src="/images/guest.jpg" alt="Coordinator 1" class="coordinator-image">
                     <div class="coordinator-content">
                         <h4>Alex Turner</h4>
                         <p>Technical Head</p>
                     </div>
                 </div>
                 <div class="coordinator-card">
-                    <img src="guest.jpg" alt="Coordinator 2" class="coordinator-image">
+                    <img src="/images/guest.jpg" alt="Coordinator 2" class="coordinator-image">
                     <div class="coordinator-content">
                         <h4>Emily Clark</h4>
                         <p>Cultural Head</p>
                     </div>
                 </div>
                 <div class="coordinator-card">
-                    <img src="guest.jpg" alt="Coordinator 3" class="coordinator-image">
+                    <img src="/images/guest.jpg" alt="Coordinator 3" class="coordinator-image">
                     <div class="coordinator-content">
                         <h4>David Chen</h4>
                         <p>Sports Head</p>
                     </div>
                 </div>
                 <div class="coordinator-card">
-                    <img src="guest.jpg" alt="Coordinator 4" class="coordinator-image">
+                    <img src="/images/guest.jpg" alt="Coordinator 4" class="coordinator-image">
                     <div class="coordinator-content">
                         <h4>Lisa Wong</h4>
                         <p>Marketing Head</p>
                     </div>
                 </div>
                 <div class="coordinator-card">
-                    <img src="guest.jpg" alt="Coordinator 5" class="coordinator-image">
+                    <img src="/images/guest.jpg" alt="Coordinator 5" class="coordinator-image">
                     <div class="coordinator-content">
                         <h4>Tom Harris</h4>
                         <p>Logistics Head</p>
                     </div>
                 </div>
                 <div class="coordinator-card">
-                    <img src="guest.jpg" alt="Coordinator 6" class="coordinator-image">
+                    <img src="/images/guest.jpg" alt="Coordinator 6" class="coordinator-image">
                     <div class="coordinator-content">
                         <h4>Maria Garcia</h4>
                         <p>PR Head</p>
                     </div>
                 </div>
                 <div class="coordinator-card">
-                    <img src="guest.jpg" alt="Coordinator 7" class="coordinator-image">
+                    <img src="/images/guest.jpg" alt="Coordinator 7" class="coordinator-image">
                     <div class="coordinator-content">
                         <h4>James Wilson</h4>
                         <p>Security Head</p>
                     </div>
                 </div>
                 <div class="coordinator-card">
-                    <img src="guest.jpg" alt="Coordinator 8" class="coordinator-image">
+                    <img src="/images/guest.jpg" alt="Coordinator 8" class="coordinator-image">
                     <div class="coordinator-content">
                         <h4>Anna Lee</h4>
                         <p>Hospitality Head</p>
@@ -1106,7 +1106,7 @@
     </footer>
 
     <script>
-        const launchDate = new Date("December 26, 2024 12:00:00").getTime();
+        const launchDate = new Date("December 27, 2024 10:30:00").getTime();
 
 // Update the countdown every second
 const timer = setInterval(() => {
@@ -1142,7 +1142,7 @@ const timer = setInterval(() => {
                 navLinks.classList.toggle('active');
             });
             document.addEventListener("DOMContentLoaded", function () {
-            const targetDate = new Date("2024-12-25T00:00:00").getTime();
+            const targetDate = new Date("2024-12-27T00:00:00").getTime();
 
             function updateCountdown() {
                 const now = new Date().getTime();
