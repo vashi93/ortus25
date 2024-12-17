@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -137,6 +136,10 @@
 
         .hero-content h1 {
             font-size: 5rem;
+            margin-bottom: 0.5rem;
+        }
+        .hero-content h2 {
+            font-size: 4rem;
             margin-bottom: 1rem;
         }
 
@@ -144,6 +147,128 @@
             font-size: 1.5rem;
             color: var(--text-gray);
             margin-bottom: 2rem;
+        }
+        #about-event {
+        background-color: var(--bg-dark);
+        padding: 3rem 2rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+        #about-event::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(178, 26, 13, 0.1), transparent);
+            pointer-events: none;
+        }
+
+        .about-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-content h2 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+        }
+
+        .about-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-gray);
+            margin-bottom: 2rem;
+        }
+
+        .hollow-btn {
+            background: transparent;
+            color: var(--text-light);
+            border: 2px solid var(--primary-color);
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .hollow-btn:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .event-details {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .detail-box {
+            padding: 2rem;
+            background-color: var(--card-bg);
+            border-radius: 1rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .detail-box h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-box p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .about-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .about-content h2 {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            #about-event {
+                padding: 4rem 1.5rem;
+            }
+
+            .about-content h2 {
+                font-size: 2.5rem;
+            }
+
+            .about-content p {
+                font-size: 1rem;
+            }
+
+            .detail-box {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .about-content h2 {
+                font-size: 2rem;
+            }
+
+            .hollow-btn {
+                width: 100%;
+            }
         }
 
         .event-info {
@@ -480,6 +605,72 @@
             color: var(--text-gray);
             font-size: 0.875rem;
         }
+         /* Powered By Section Styles */
+         #powered-by {
+            background-color: var(--bg-dark);
+            padding: 1rem 2rem;
+            margin-top: -1px;
+        }
+
+        #powered-by .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+        }
+
+        #powered-by h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--text-light);
+        }
+
+        #powered-by .cards-container {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        #powered-by .card {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background-color: var(--card-bg);
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            border: 1px solid var(--border-color);
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        #powered-by .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        #powered-by .card svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        #powered-by .card span {
+            font-weight: 500;
+        }
+
+        @media (max-width: 640px) {
+            #powered-by {
+                padding: 3rem 1rem;
+            }
+            
+            #powered-by h2 {
+                font-size: 2rem;
+            }
+            
+            #powered-by .card {
+                padding: 0.5rem 1rem;
+            }
+        }
 
         /* Footer Styles */
         footer {
@@ -504,7 +695,7 @@
         }
 
         /* Button Styles */
-        .promo-btn {
+        .register-btn {
             background-color: var(--primary-color);
             color: var(--text-light);
             border: none;
@@ -515,8 +706,8 @@
             transition: background-color 0.3s;
         }
 
-        .promo-btn:hover {
-            background-color: #581616;
+        .register-btn:hover {
+            background-color: #7C3AED;
         }
         .logo-launch-section {
             display: flex;
@@ -542,7 +733,7 @@
 
             .countdown-bg {
             height: 150px;
-            background: url('/images/logo.jpg') center/contain no-repeat,var(--card-bg-gradient);
+            background: url('logo.jpg') center/contain no-repeat,var(--card-bg-gradient);
             border-radius: 8px;
             margin-bottom: 15px;
             }
@@ -616,7 +807,10 @@
             }
 
             .hero-content h1 {
-                font-size: 3rem;
+                font-size: 2.5rem;
+            }
+            .hero-content h2 {
+                font-size: 2rem;
             }
 
             .event-info {
@@ -792,11 +986,30 @@
             </shader-art>
         </div>
         <div class="hero-content">
-            <h1>Silver Jubilee &</h1>
-            <h1>ORTUS 25</h1>
+            <h1>SILVER JUBLIEE</h1>
+            <h2>CELEBRATIONS</h2>
             <p>Experience the Biggest Cultural Extravaganza</p>
             
-            <button class="promo-btn">Play Promo</button>
+            <button class="register-btn">Play Promo</button>
+        </div>
+    </section>
+    <section id="about-event">
+        <div class="about-container">
+            <div class="about-content">
+                <h2>About The Event</h2>
+                <p>Vardhaman College of Engineering turns 25! 🎉 A quarter-century of innovation, inspiration, and unstoppable spirit! Dive into the grand celebration packed with electrifying events, mesmerizing performances, and unforgettable moments. Let’s honor the past, celebrate the present, and ignite the future—together!</p>
+                <button class="hollow-btn">View Schedule</button>
+            </div>
+            <div class="event-details">
+                <div class="detail-box">
+                    <h3>WHERE</h3>
+                    <p>Vardhaman College of Engineering</p>
+                </div>
+                <div class="detail-box">
+                    <h3>WHEN</h3>
+                    <p>December 26-29, 2024</p>
+                </div>
+            </div>
         </div>
     </section>
     <section id="logo">
@@ -889,28 +1102,28 @@
         <div class="guests-container">
             <div class="chief-guests-grid">
                 <div class="guest-card">
-                    <img src="/images/chairman.jpg" alt="CHAIRMAN" class="guest-image">
+                    <img src="public/images/chairman.jpg" alt="CHAIRMAN" class="guest-image">
                     <div class="guest-content">
                         <h3 class="guest-name">Dr. T Vijender Reddy</h3>
                         <p class="guest-position">CHAIRMAN</p>
                     </div>
                 </div>
                 <div class="guest-card">
-                    <img src="/images/guest.jpg" alt="SECRETARY" class="guest-image">
+                    <img src="guest.jpg" alt="SECRETARY" class="guest-image">
                     <div class="guest-content">
                         <h3 class="guest-name">Mr. T Upender Reddy</h3>
                         <p class="guest-position">SECRETARY</p>
                     </div>
                 </div>
                 <div class="guest-card">
-                    <img src="/images/guest.jpg" alt="TREASURER" class="guest-image">
+                    <img src="guest.jpg" alt="TREASURER" class="guest-image">
                     <div class="guest-content">
                         <h3 class="guest-name">Mr. E Prabhakar Reddy</h3>
                         <p class="guest-position">TREASURER</p>
                     </div>
                 </div>
                 <div class="guest-card">
-                    <img src="/images/guest.jpg" alt="Principal" class="guest-image">
+                    <img src="guest.jpg" alt="Principal" class="guest-image">
                     <div class="guest-content">
                         <h3 class="guest-name">Dr. J V R Ravindra</h3>
                         <p class="guest-position">Principal</p>
@@ -921,56 +1134,56 @@
             <h3 class="coordinators-title">Event Coordinators</h3>
             <div class="coordinators-grid">
                 <div class="coordinator-card">
-                    <img src="/images/guest.jpg" alt="Coordinator 1" class="coordinator-image">
+                    <img src="guest.jpg" alt="Coordinator 1" class="coordinator-image">
                     <div class="coordinator-content">
                         <h4>Alex Turner</h4>
                         <p>Technical Head</p>
                     </div>
                 </div>
                 <div class="coordinator-card">
-                    <img src="/images/guest.jpg" alt="Coordinator 2" class="coordinator-image">
+                    <img src="guest.jpg" alt="Coordinator 2" class="coordinator-image">
                     <div class="coordinator-content">
                         <h4>Emily Clark</h4>
                         <p>Cultural Head</p>
                     </div>
                 </div>
                 <div class="coordinator-card">
-                    <img src="/images/guest.jpg" alt="Coordinator 3" class="coordinator-image">
+                    <img src="guest.jpg" alt="Coordinator 3" class="coordinator-image">
                     <div class="coordinator-content">
                         <h4>David Chen</h4>
                         <p>Sports Head</p>
                     </div>
                 </div>
                 <div class="coordinator-card">
-                    <img src="/images/guest.jpg" alt="Coordinator 4" class="coordinator-image">
+                    <img src="guest.jpg" alt="Coordinator 4" class="coordinator-image">
                     <div class="coordinator-content">
                         <h4>Lisa Wong</h4>
                         <p>Marketing Head</p>
                     </div>
                 </div>
                 <div class="coordinator-card">
-                    <img src="/images/guest.jpg" alt="Coordinator 5" class="coordinator-image">
+                    <img src="guest.jpg" alt="Coordinator 5" class="coordinator-image">
                     <div class="coordinator-content">
                         <h4>Tom Harris</h4>
                         <p>Logistics Head</p>
                     </div>
                 </div>
                 <div class="coordinator-card">
-                    <img src="/images/guest.jpg" alt="Coordinator 6" class="coordinator-image">
+                    <img src="guest.jpg" alt="Coordinator 6" class="coordinator-image">
                     <div class="coordinator-content">
                         <h4>Maria Garcia</h4>
                         <p>PR Head</p>
                     </div>
                 </div>
                 <div class="coordinator-card">
-                    <img src="/images/guest.jpg" alt="Coordinator 7" class="coordinator-image">
+                    <img src="guest.jpg" alt="Coordinator 7" class="coordinator-image">
                     <div class="coordinator-content">
                         <h4>James Wilson</h4>
                         <p>Security Head</p>
                     </div>
                 </div>
                 <div class="coordinator-card">
-                    <img src="/images/guest.jpg" alt="Coordinator 8" class="coordinator-image">
+                    <img src="guest.jpg" alt="Coordinator 8" class="coordinator-image">
                     <div class="coordinator-content">
                         <h4>Anna Lee</h4>
                         <p>Hospitality Head</p>
@@ -1070,6 +1283,26 @@
             <button class="nav-btn next-btn" aria-label="Next">→</button>
         </div>
     </section>
+    <section id="powered-by">
+        <div class="container">
+            <h2>Powered By</h2>
+            <div class="cards-container">
+                <a href="https://stackblitz.com" target="_blank" rel="noopener noreferrer" class="card">
+                    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="color: #007FFF;">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                    </svg>
+                    <span>Vencorpia</span>
+                </a>
+                
+                <a href="https://ecorent.neocities.org/about" target="_blank" rel="noopener noreferrer" class="card">
+                    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 19.7778H22L12 2Z"></path>
+                    </svg>
+                    <span>TrendBorrow</span>
+                </a>
+            </div>
+        </div>
+    </section>
 
     <footer>
         <div class="footer-content">
@@ -1106,7 +1339,7 @@
     </footer>
 
     <script>
-        const launchDate = new Date("December 27, 2024 10:30:00").getTime();
+        const launchDate = new Date("December 26, 2024 12:00:00").getTime();
 
 // Update the countdown every second
 const timer = setInterval(() => {
@@ -1142,7 +1375,7 @@ const timer = setInterval(() => {
                 navLinks.classList.toggle('active');
             });
             document.addEventListener("DOMContentLoaded", function () {
-            const targetDate = new Date("2024-12-27T00:00:00").getTime();
+            const targetDate = new Date("2024-12-25T00:00:00").getTime();
 
             function updateCountdown() {
                 const now = new Date().getTime();
